@@ -1,3 +1,4 @@
+@import url("./componets/StartButton/StartButton.css");
 
 body {
   margin: 0;
@@ -8,7 +9,8 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-family: 'Inter', sans-serif;
+  font-family: Tahoma;
+
 }
 
 .main{
@@ -37,7 +39,6 @@ body {
   font-size: 24px;
   color: #5c5c5c;
   line-height: 1.4;
-  font-family: Tahoma;
 }
 
 .main__content{
