@@ -10,7 +10,6 @@ body {
   align-items: center;
   text-align: center;
   font-family: Tahoma;
-
 }
 
 .main{
@@ -24,7 +23,6 @@ body {
   text-align: center;
   text-transform: uppercase;
   padding: 40px 0;
-
 }
 
 .main__window{
@@ -54,6 +52,7 @@ body {
 .speed{
 }
 
+/*---стили для отображения точности и скорости----*/
 .speed,
 .accuracy{
   color: #b5bbc2;
@@ -73,5 +72,20 @@ body {
 }
 
 .main__passed{
+
+}
+
+/*-----стили для букв-----*/
+.correct-word{
   color:#5bc538;
+}
+
+.incorrect-word{
+  background-color: #F36747;
+}
+
+.active{
+  background-color: yellowgreen;
+  padding: 0 3px;
+  border-radius: 5px;
 }

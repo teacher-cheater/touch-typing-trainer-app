@@ -2,9 +2,12 @@
     position: relative;
     transform: scale(0);
 }
+
+/*----стиль для активации pop-up----*/
 .active{
     transform: scale(1);
 }
+
 .btn__container{
     min-width: 100%;
     min-height: 25vh;
@@ -18,7 +21,6 @@
     transform: translateX(-50%);
     max-width: 1300px;
     max-height: 100vh;
-
 }
 
 .btn__title{
@@ -33,6 +35,7 @@
     transform: translateX(-50%);
 }
 
+/*---- стиль для кнопки 'start' ------*/
 .btn__start{
     height: 44px;
     font-size: 16px;

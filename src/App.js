@@ -5,15 +5,33 @@ import {useEffect, useState} from "react";
 const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=4&start-with-lorem=1'
 
 
+
+function Letter(props){
+    const {letter, active, correct} = props;
+    if(correct === true){
+        return <span className='correct-word'>{letter}</span>
+    }
+    // if(correct === false){
+    //     return <span className='incorrect-word'>{letter}</span>
+    // }
+    if(active){
+        return <span className='active'>{letter}</span>
+    }
+    return <span>{letter}</span>
+}
+
+
+
+
+
 function App() {
 
     const [text, setText] = useState([])
 
-    const [rightCount, setRightCount] = useState(0);
-    // console.log(rightCount)
-    const[activeLetterIndex, setActiveLetterIndex] = useState();
-
+    const [activeWordIndex, setActiveWordIndex] = useState(0);
     const [activeModal, setActiveModal] = useState(false);
+
+    const [rightCount, setRightCount] = useState(0);
 
 
 
@@ -27,25 +45,19 @@ function App() {
         return () => controller.abort(); //прерывание запросов
     }, []);
 
-    const letterCheck = () =>{
-
-    }
 
     useEffect(() => {
         const onKeypress = e => {
-            // console.log(e.key)
-            if (rightCount !== e.key && e.key.length === 1) {
-                setRightCount(e.key)
-                console.log(e.key)
-            } else {
-                return rightCount
+            console.log(e.key)
+            if(e.key === text[activeWordIndex]){
+                setActiveWordIndex(ind => ind +1)
             }
         }
         document.addEventListener('keypress', onKeypress);
         return () => {
             document.removeEventListener('keypress', onKeypress);
         };
-    }, []);
+    }, [text, activeWordIndex]);
 
 
 
@@ -56,27 +68,26 @@ function App() {
                 <h1 className="main__title">Тренажёр слепой печати</h1>
                 <StartButton activeModal={activeModal} setActiveModal={setActiveModal}/>
                 <div className="main__window">
-{/*                    <span className="main__text">*/}
-{/*                        {text.map(letter =>*/}
-{/*                                <span className="main__textarea">*/}
-{/*                            {letter}*/}
-{/*/!* если текущий индекс меньше, чем состояние, то красить зеленым, и красить след индекс*!/*/}
-{/*                        </span>*/}
-{/*                        )}*/}
-                    {/*  ---  */}
+
+    {/*                <span className="main__text">*/}
+    {/*                    {text.map((letter, index) =>*/}
+    {/*                        <span className="main__textarea">{letter}</span>*/}
+    {/*                    )}*/}
+
+    {/*                    <span className="main__textarea">*/}
+    {/*/!* если текущий индекс меньше, чем состояние, то красить зеленым, и красить след индекс*!/*/}
+    {/*                    </span>*/}
+    {/*                </span>*/}
                     <span className="main__text">
                         {text.map((letter, index) => {
-
-                            if (index === activeLetterIndex && index < activeLetterIndex) {
-                                return <span className="main__passed">{letter}</span>
-                        }
-
-                            return <span className="main__textarea">
-                            {letter}
+                            return <Letter letter={letter}
+                                            active={index === activeWordIndex}
+                                            correct={index < activeWordIndex}
+                            />
+                        })}
+                        <span className="main__textarea">
     {/* если текущий индекс меньше, чем состояние, то красить зеленым, и красить след индекс*/}
-                        </span>}
-                        )}
-                    {/*  ---  */}
+                        </span>
                     </span>
                     {/*<span className="main__passed"></span>*/}
                     <div className="main__content">
@@ -96,7 +107,7 @@ function App() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default App;
