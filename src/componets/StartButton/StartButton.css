@@ -1,7 +1,10 @@
 .btn{
     position: relative;
+    transform: scale(0);
 }
-
+.active{
+    transform: scale(1);
+}
 .btn__container{
     min-width: 100%;
     min-height: 25vh;
@@ -15,6 +18,7 @@
     transform: translateX(-50%);
     max-width: 1300px;
     max-height: 100vh;
+
 }
 
 .btn__title{
