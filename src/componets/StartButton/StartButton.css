@@ -9,12 +9,12 @@
 }
 
 .btn__container{
-    min-width: 100%;
-    min-height: 25vh;
+    min-width: 90%;
+    min-height: 30vh;
     z-index: 5;
     position: absolute;
     padding: 40px;
-    background-color: #fff;
+    background-color: #e3e3e3;
     border-radius: 5px;
     top: 30px;
     left: 50%;

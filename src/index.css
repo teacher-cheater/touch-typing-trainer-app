@@ -28,7 +28,7 @@ body {
 .main__window{
   padding: 30px;
   border-radius: 9px;
-  background: #fff;
+  background: #e9e6e6;
   display: flex;
   gap: 35px;
 }
@@ -82,6 +82,8 @@ body {
 
 .incorrect-word{
   background-color: #F36747;
+  padding: 0 3px;
+  border-radius: 5px;
 }
 
 .active{
