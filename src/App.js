@@ -20,17 +20,15 @@ function Letter(props) {
 }
 
     function Timer(props) {
-            //длину массива разделить на время и умножить на 60 => получим " " знаков в минуту
-            const [speed, setSpeed] = useState(0);
-            const{rightCount} = props;
-            // console.log(rightCount)
-            // const {startCounting, text} = props;
-
-
+        //длину массива разделить на время и умножить на 60 => получим " " знаков в минуту
+        const [speed, setSpeed] = useState(0);
+        const{rightCount} = props;
+        const minutes = speed/60;
+        // const {startCounting, text} = props;
         useEffect(() => {
             const intervalId = setInterval(onTime, 1000);
                 function onTime() {
-                    setSpeed((c) => c + 1);
+                    setSpeed((time) => time + 1);
                     console.log(speed);
                 }
             return () => clearInterval(intervalId);
@@ -44,22 +42,36 @@ function Letter(props) {
             //     }
             //
             // }, [])
-
-            const minutes = speed/60;
             return <div className="main__result">
                 <span> {Math.floor(rightCount / minutes)} </span>
                 зн/мин
             </div>
     }
 
-function App() {
+    function Accurary(props){
+        const [accuracyScore, setAccuracyScore] = useState(0);
+        const{wrongCount} = props;
 
+        useEffect(() => {
+            setAccuracyScore((score) => score + 1);
+            console.log(accuracyScore);
+        }, []);
+
+        return <div className="main__result">
+            <span> {wrongCount} </span>
+            %
+        </div>
+    }
+
+function App() {
     const [text, setText] = useState([])
     const [activeWordIndex, setActiveWordIndex] = useState(0);
     const [startCounting, setStartCounting] = useState(false);
     const [activeModal, setActiveModal] = useState(false);
     const [rightCount, setRightCount] = useState(0);
-    console.log(rightCount)
+    const [wrongCount, setWrongCount] = useState(0);
+    console.log(rightCount);
+    console.log(wrongCount)
     //кнопка старт и пошел отсчет
     //отследить последний индекс и вывести результат
     //начальное время хранить (старт) хранить правильных/неправильных символов
@@ -84,8 +96,12 @@ function App() {
                 setActiveWordIndex(ind => ind + 1)
             }
             //если ввод верен - ведем счет
-            if(e.key === text[rightCount]){
+            if(e.key === text[rightCount]) {
                 setRightCount(index=> index +1)
+            }
+            //если ввод неверен - ведем счет
+            if(e.key === text[wrongCount]) {
+                setWrongCount(index => index +1)
             }
             //зн/мин
             if(!startCounting){
@@ -137,10 +153,13 @@ function App() {
                             {/*</div>*/}
                         </div>
                         <div className="accuracy"> accuracy:
-                            <div className="main__result">
-                                <span> 99 </span>
-                                %
-                            </div>
+                            <Accurary
+                                wrongCount={wrongCount}
+                            />
+                            {/*<div className="main__result">*/}
+                            {/*    <span> 99 </span>*/}
+                            {/*    %*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
