@@ -18,24 +18,48 @@ function Letter(props) {
     }
     return <span>{letter}</span>
 }
-    function Timer(){
-        //длину массива разделить на время и умножить на 60 => получим " " знаков в минуту
-        const [speed, setSpeed] = useState(0);
 
-        return <div className="main__result">
-            <span> {speed} </span>
-            зн/мин
-        </div>
+    function Timer(props) {
+            //длину массива разделить на время и умножить на 60 => получим " " знаков в минуту
+            const [speed, setSpeed] = useState(0);
+            const{rightCount} = props;
+            // console.log(rightCount)
+            // const {startCounting, text} = props;
+
+
+        useEffect(() => {
+            const intervalId = setInterval(onTime, 1000);
+                function onTime() {
+                    setSpeed((c) => c + 1);
+                    console.log(speed);
+                }
+            return () => clearInterval(intervalId);
+        }, []);
+
+            // useEffect(() => {
+            //     if (speed > 0) {
+            //         setInterval(() => {
+            //             setSpeed(time => time + 1)
+            //         }, 1000);
+            //     }
+            //
+            // }, [])
+
+            const minutes = speed/60;
+            return <div className="main__result">
+                <span> {Math.floor(rightCount / minutes)} </span>
+                зн/мин
+            </div>
     }
 
 function App() {
 
     const [text, setText] = useState([])
     const [activeWordIndex, setActiveWordIndex] = useState(0);
-
+    const [startCounting, setStartCounting] = useState(false);
     const [activeModal, setActiveModal] = useState(false);
     const [rightCount, setRightCount] = useState(0);
-
+    console.log(rightCount)
     //кнопка старт и пошел отсчет
     //отследить последний индекс и вывести результат
     //начальное время хранить (старт) хранить правильных/неправильных символов
@@ -55,10 +79,18 @@ function App() {
     useEffect(() => {
         const onKeypress = e => {
             console.log(e.key)
+            //если ввод верен - переходим к след индекс
             if (e.key === text[activeWordIndex]) {
                 setActiveWordIndex(ind => ind + 1)
             }
-
+            //если ввод верен - ведем счет
+            if(e.key === text[rightCount]){
+                setRightCount(index=> index +1)
+            }
+            //зн/мин
+            if(!startCounting){
+                setStartCounting(false)
+            }
         }
         document.addEventListener('keypress', onKeypress);
         return () => {
@@ -71,7 +103,12 @@ function App() {
         <div className="App">
             <div className="main">
                 <h1 className="main__title">Тренажёр слепой печати</h1>
-                <StartButton activeModal={activeModal} setActiveModal={setActiveModal}/>
+                <StartButton
+                    activeModal={activeModal}
+                    setActiveModal={setActiveModal}
+                    // timerActive={timerActive}
+                    // setTimerActive={setTimerActive}
+                />
                 <div className="main__window">
                     <span className="main__text">
                         {text.map((letter, index) => {
@@ -88,7 +125,12 @@ function App() {
                     {/*<span className="main__passed"></span>*/}
                     <div className="main__content">
                         <div className="speed"> speed:
-                            <Timer/>
+                            <Timer
+                                text={text.length}
+                                rightCount={rightCount}
+                                // startCounting={startCounting}
+                                // text={activeWordIndex}
+                            />
                             {/*<div className="main__result">*/}
                             {/*    <span> 7 </span>*/}
                             {/*    зн/мин*/}
