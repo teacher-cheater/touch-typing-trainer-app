@@ -4,14 +4,16 @@ import {StartPopup} from "./componets/StartPopup/StartPopup";
 
 const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=4&start-with-lorem=1'
 
-function Letter(props) {
-    const {letter, active, correct, incorrect} = props;
-    if (correct === true) {
+
+
+
+function Letter({letter, active, correct, incorrect}) {
+    if (correct) {
         return <span className='correct-word'>{letter}</span>
     }
-    // if(incorrect === true){
-    //     return <span className='incorrect-word'>{letter}</span>
-    // }
+    if(incorrect){
+        return <span className='incorrect-word'>{letter}</span>
+    }
     if (active) {
         return <span className={active ? 'active' : 'incorrect-word'}>{letter}</span>
     }
@@ -19,34 +21,24 @@ function Letter(props) {
 }
 
 
-    // function Accurary(props){
-    //     const [accuracyScore, setAccuracyScore] = useState(0);
-    //     const{wrongCount, rightCount} = props;
-    //
-    //     useEffect(() => {
-    //         setAccuracyScore((score) => Number(rightCount - wrongCount) /  score);
-    //         console.log(accuracyScore);
-    //     }, []);
-    //
-    //     return <div className="main__result">
-    //         <span> {accuracyScore} </span>
-    //         %
-    //     </div>
-    // }
-
-
 function App() {
-    const [text, setText] = useState([])
+    const [text, setText] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [startCounting, setStartCounting] = useState(false);
-    const [activeModal, setActiveModal] = useState(false);
     const [rightCount, setRightCount] = useState(0);
-    const [wrongCount, setWrongCount] = useState(100);
+    const [wrongCount, setWrongCount] = useState(0);
+    const [popup, setPopup] = useState(true);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [gameOver, setGameOver] = useState(false);
     const [lastLetterIncorrect, setLastLetterIncorrect] = useState(false);
-    const speed = 10;
-    const accuracy = 100;
+
+    const inputCount = rightCount + wrongCount;
+    const timeSpent = (endDate ?? Date.now()) - startDate;
+    const speed = startDate ?  rightCount / (timeSpent / 60000) : null;
+    const accuracy = Math.floor((rightCount / inputCount) * 100);
     console.log(rightCount);
+    console.log(timeSpent)
+    console.log(speed)
     console.log(wrongCount)
     //кнопка старт и пошел отсчет
     //отследить последний индекс и вывести результат
@@ -73,6 +65,7 @@ function App() {
 
                 if (activeIndex === text.length - 1) {
                     setGameOver(true);
+                    setEndDate(new Date());
                 }
             } else {
                 setLastLetterIncorrect(true);
@@ -89,12 +82,17 @@ function App() {
         <div className="App">
             <div className="main">
                 <h1 className="main__title">Тренажёр слепой печати</h1>
-                <StartPopup
-                    activeModal={activeModal}
-                    setActiveModal={setActiveModal}
-                    // timerActive={timerActive}
-                    // setTimerActive={setTimerActive}
-                />
+                {popup &&
+                    <StartPopup
+                        popup={popup}
+                        setPopup={setPopup}
+                        setStartDate={setStartDate}
+                        // onStart={() => {
+                        //     setPopup(false);
+                        //     setStartDate(new Date());
+                        // }}
+                    />
+                }
                 <div className="main__window">
                     <span className="main__text">
                         {text.map((letter, index) => {
@@ -112,7 +110,7 @@ function App() {
                     <div className="main__content">
                         <div className="speed"> speed:
                             <div className="main__result">
-                                <span> {speed} </span>
+                                <span> {Math.floor(speed)} </span>
                                 зн/мин
                             </div>
                         </div>
