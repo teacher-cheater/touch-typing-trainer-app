@@ -1,9 +1,8 @@
-import {StartButton} from "./componets/StartButton/StartButton";
 
 import {useEffect, useState} from "react";
+import {StartPopup} from "./componets/StartPopup/StartPopup";
 
 const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=4&start-with-lorem=1'
-
 
 function Letter(props) {
     const {letter, active, correct, incorrect} = props;
@@ -19,57 +18,34 @@ function Letter(props) {
     return <span>{letter}</span>
 }
 
-    function Timer(props) {
-        //длину массива разделить на время и умножить на 60 => получим " " знаков в минуту
-        const [speed, setSpeed] = useState(0);
-        const{rightCount} = props;
-        const minutes = speed/60;
-        // const {startCounting, text} = props;
-        useEffect(() => {
-            const intervalId = setInterval(onTime, 1000);
-                function onTime() {
-                    setSpeed((time) => time + 1);
-                    console.log(speed);
-                }
-            return () => clearInterval(intervalId);
-        }, []);
 
-            // useEffect(() => {
-            //     if (speed > 0) {
-            //         setInterval(() => {
-            //             setSpeed(time => time + 1)
-            //         }, 1000);
-            //     }
-            //
-            // }, [])
-            return <div className="main__result">
-                <span> {Math.floor(rightCount / minutes)} </span>
-                зн/мин
-            </div>
-    }
+    // function Accurary(props){
+    //     const [accuracyScore, setAccuracyScore] = useState(0);
+    //     const{wrongCount, rightCount} = props;
+    //
+    //     useEffect(() => {
+    //         setAccuracyScore((score) => Number(rightCount - wrongCount) /  score);
+    //         console.log(accuracyScore);
+    //     }, []);
+    //
+    //     return <div className="main__result">
+    //         <span> {accuracyScore} </span>
+    //         %
+    //     </div>
+    // }
 
-    function Accurary(props){
-        const [accuracyScore, setAccuracyScore] = useState(0);
-        const{wrongCount} = props;
-
-        useEffect(() => {
-            setAccuracyScore((score) => score + 1);
-            console.log(accuracyScore);
-        }, []);
-
-        return <div className="main__result">
-            <span> {wrongCount} </span>
-            %
-        </div>
-    }
 
 function App() {
     const [text, setText] = useState([])
-    const [activeWordIndex, setActiveWordIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(0);
     const [startCounting, setStartCounting] = useState(false);
     const [activeModal, setActiveModal] = useState(false);
     const [rightCount, setRightCount] = useState(0);
-    const [wrongCount, setWrongCount] = useState(0);
+    const [wrongCount, setWrongCount] = useState(100);
+    const [gameOver, setGameOver] = useState(false);
+    const [lastLetterIncorrect, setLastLetterIncorrect] = useState(false);
+    const speed = 10;
+    const accuracy = 100;
     console.log(rightCount);
     console.log(wrongCount)
     //кнопка старт и пошел отсчет
@@ -89,37 +65,31 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const onKeypress = e => {
-            console.log(e.key)
-            //если ввод верен - переходим к след индекс
-            if (e.key === text[activeWordIndex]) {
-                setActiveWordIndex(ind => ind + 1)
+        const onKeypress = (e) => {
+            if (e.key === text[activeIndex]) {
+                setLastLetterIncorrect(false);
+                setActiveIndex((index) => index + 1);
+                setRightCount((count) => count + 1);
+
+                if (activeIndex === text.length - 1) {
+                    setGameOver(true);
+                }
+            } else {
+                setLastLetterIncorrect(true);
+                setWrongCount((count) => count + 1);
             }
-            //если ввод верен - ведем счет
-            if(e.key === text[rightCount]) {
-                setRightCount(index=> index +1)
-            }
-            //если ввод неверен - ведем счет
-            if(e.key === text[wrongCount]) {
-                setWrongCount(index => index +1)
-            }
-            //зн/мин
-            if(!startCounting){
-                setStartCounting(false)
-            }
-        }
-        document.addEventListener('keypress', onKeypress);
-        return () => {
-            document.removeEventListener('keypress', onKeypress);
         };
-    }, [text, activeWordIndex]);
+
+        document.addEventListener("keypress", onKeypress);
+        return () => document.removeEventListener("keypress", onKeypress);
+    }, [text, activeIndex]);
 
 
     return (
         <div className="App">
             <div className="main">
                 <h1 className="main__title">Тренажёр слепой печати</h1>
-                <StartButton
+                <StartPopup
                     activeModal={activeModal}
                     setActiveModal={setActiveModal}
                     // timerActive={timerActive}
@@ -130,9 +100,9 @@ function App() {
                         {text.map((letter, index) => {
                             return <Letter letter={letter}
                                            key={index}
-                                           active={index === activeWordIndex}
-                                           correct={index < activeWordIndex}
-                                           incorrect={index !== activeWordIndex}
+                                           active={index === activeIndex}
+                                           correct={index < activeIndex}
+                                           incorrect={index === activeIndex && lastLetterIncorrect}
                             />
                         })}
                         <span className="main__textarea">
@@ -141,25 +111,16 @@ function App() {
                     {/*<span className="main__passed"></span>*/}
                     <div className="main__content">
                         <div className="speed"> speed:
-                            <Timer
-                                text={text.length}
-                                rightCount={rightCount}
-                                // startCounting={startCounting}
-                                // text={activeWordIndex}
-                            />
-                            {/*<div className="main__result">*/}
-                            {/*    <span> 7 </span>*/}
-                            {/*    зн/мин*/}
-                            {/*</div>*/}
+                            <div className="main__result">
+                                <span> {speed} </span>
+                                зн/мин
+                            </div>
                         </div>
                         <div className="accuracy"> accuracy:
-                            <Accurary
-                                wrongCount={wrongCount}
-                            />
-                            {/*<div className="main__result">*/}
-                            {/*    <span> 99 </span>*/}
-                            {/*    %*/}
-                            {/*</div>*/}
+                            <div className="main__result">
+                                <span> {accuracy} </span>
+                                %
+                            </div>
                         </div>
                     </div>
                 </div>
