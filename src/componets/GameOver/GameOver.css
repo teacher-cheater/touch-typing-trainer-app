@@ -10,8 +10,8 @@
 
 .btn__container{
     min-width: 90%;
-    min-height: 30vh;
-    z-index: 6;
+    min-height: 40vh;
+    z-index: 10;
     position: absolute;
     padding: 40px;
     background-color: #e3e3e3;
@@ -34,7 +34,10 @@
     left: 50%;
     transform: translateX(-50%);
 }
-
+.btn__result{
+    font-size: 20px;
+    text-align: center;
+}
 /*---- стиль для кнопки 'start' ------*/
 .btn__start{
     height: 44px;

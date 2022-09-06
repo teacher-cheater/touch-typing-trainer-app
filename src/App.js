@@ -1,25 +1,26 @@
 
 import {useEffect, useState} from "react";
 import {StartPopup} from "./componets/StartPopup/StartPopup";
+import {GameOver} from "./componets/GameOver/GameOver";
 
-const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=4&start-with-lorem=1'
-
-
-
+const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=0.1&start-with-lorem=1';
 
 function Letter({letter, active, correct, incorrect}) {
+
     if (correct) {
         return <span className='correct-word'>{letter}</span>
     }
-    if(incorrect){
+
+    if (incorrect) {
         return <span className='incorrect-word'>{letter}</span>
     }
+
     if (active) {
         return <span className={active ? 'active' : 'incorrect-word'}>{letter}</span>
     }
+
     return <span>{letter}</span>
 }
-
 
 function App() {
     const [text, setText] = useState([]);
@@ -36,15 +37,6 @@ function App() {
     const timeSpent = (endDate ?? Date.now()) - startDate;
     const speed = startDate ?  rightCount / (timeSpent / 60000) : null;
     const accuracy = Math.floor((rightCount / inputCount) * 100);
-    console.log(rightCount);
-    console.log(timeSpent)
-    console.log(speed)
-    console.log(wrongCount)
-    //кнопка старт и пошел отсчет
-    //отследить последний индекс и вывести результат
-    //начальное время хранить (старт) хранить правильных/неправильных символов
-    //хранить индекс следующего символа
-    ///скорость и точность вычисляемые (создать переменную и положите результат)
 
     useEffect(() => {
         const controller = new AbortController();
@@ -58,6 +50,7 @@ function App() {
 
     useEffect(() => {
         const onKeypress = (e) => {
+
             if (e.key === text[activeIndex]) {
                 setLastLetterIncorrect(false);
                 setActiveIndex((index) => index + 1);
@@ -87,10 +80,12 @@ function App() {
                         popup={popup}
                         setPopup={setPopup}
                         setStartDate={setStartDate}
-                        // onStart={() => {
-                        //     setPopup(false);
-                        //     setStartDate(new Date());
-                        // }}
+                    />
+                }
+                {gameOver &&
+                    <GameOver
+                        speed={speed}
+                        accuracy={accuracy}
                     />
                 }
                 <div className="main__window">
@@ -106,7 +101,6 @@ function App() {
                         <span className="main__textarea">
                         </span>
                     </span>
-                    {/*<span className="main__passed"></span>*/}
                     <div className="main__content">
                         <div className="speed"> speed:
                             <div className="main__result">
