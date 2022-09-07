@@ -1,14 +1,9 @@
-.btn{
-    position: relative;
-    transform: scale(0);
-}
 
-/*----стиль для активации pop-up----*/
 .active{
     transform: scale(1);
 }
 
-.btn__container{
+.result__container{
     min-width: 90%;
     min-height: 40vh;
     z-index: 10;
@@ -23,43 +18,23 @@
     max-height: 100vh;
 }
 
-.btn__title{
+.result__title{
     text-align: center;
     font-size: 34px;
+    text-transform: uppercase;
 }
 
-.btn__content{
+.result__content{
     position: absolute;
     top: 20%;
     left: 50%;
     transform: translateX(-50%);
 }
-.btn__result{
-    font-size: 20px;
+.result__text{
+    font-size: 26px;
     text-align: center;
-}
-/*---- стиль для кнопки 'start' ------*/
-.btn__start{
-    height: 44px;
-    font-size: 16px;
-    line-height: 44px;
-    font-weight: 700;
-    color: #0e509e;
-    text-shadow: 0 1px 1px #fff8c4;
     text-transform: uppercase;
-    text-align: center;
-    box-shadow: rgb(99 121 133 / 14%) 0 0 0 4px;
-    border-radius: 4px;
-    border: none;
-    border-top: 1px solid #fff696;
-    border-bottom: 1px solid #ffce06;
-    background-color: #ffde0e;
-    outline: 0;
-    cursor: pointer;
-    margin: 0 0 5px 4px;
-    padding: 0 50px;
 }
-
-.btn__start:hover{
-    background-color: #ebcc11;
+.result__text span{
+    text-transform: lowercase;
 }

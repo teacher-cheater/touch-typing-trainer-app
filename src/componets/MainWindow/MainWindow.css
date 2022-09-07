@@ -1,0 +1,61 @@
+.main__window{
+    padding: 30px;
+    border-radius: 9px;
+    background: #e9e6e6;
+    display: flex;
+    gap: 35px;
+}
+
+.main__text{
+    font-size: 24px;
+    color: #5c5c5c;
+    line-height: 1.4;
+}
+
+.main__content{
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    flex-direction: column;
+    min-width: 130px;
+    font-size: 24px;
+    gap: 20px;
+}
+
+/*---стили для отображения точности и скорости----*/
+.speed,
+.accuracy{
+    color: #b5bbc2;
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.main__result{
+    font-size: 16px;
+    color: #67defd;
+    text-transform: lowercase;
+}
+
+.main__result span{
+    font-size: 34px;
+    color: #67defd;
+    font-weight: 700;
+}
+
+/*-----стили для букв-----*/
+.correct-word{
+    color:#5bc538;
+}
+
+.incorrect-word{
+    background-color: #F36747;
+    padding: 0 3px;
+    border-radius: 5px;
+}
+
+.active{
+    background-color: yellowgreen;
+    padding: 0 3px;
+    border-radius: 5px;
+}

@@ -1,4 +1,4 @@
-.btn{
+.popup{
     position: relative;
     transform: scale(0);
 }
@@ -8,7 +8,7 @@
     transform: scale(1);
 }
 
-.btn__container{
+.popup__container{
     min-width: 90%;
     min-height: 30vh;
     z-index: 6;
@@ -23,12 +23,12 @@
     max-height: 100vh;
 }
 
-.btn__title{
+.popup__title{
     text-align: center;
     font-size: 34px;
 }
 
-.btn__content{
+.popup__content{
     position: absolute;
     top: 20%;
     left: 50%;
@@ -36,7 +36,7 @@
 }
 
 /*---- стиль для кнопки 'start' ------*/
-.btn__start{
+.popup__start{
     height: 44px;
     font-size: 16px;
     line-height: 44px;
@@ -57,6 +57,6 @@
     padding: 0 50px;
 }
 
-.btn__start:hover{
+.popup__start:hover{
     background-color: #ebcc11;
 }

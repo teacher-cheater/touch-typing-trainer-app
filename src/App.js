@@ -1,26 +1,9 @@
-
 import {useEffect, useState} from "react";
 import {StartPopup} from "./componets/StartPopup/StartPopup";
 import {GameOver} from "./componets/GameOver/GameOver";
+import {MainWindow} from "./componets/MainWindow/MainWindow";
 
 const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=0.1&start-with-lorem=1';
-
-function Letter({letter, active, correct, incorrect}) {
-
-    if (correct) {
-        return <span className='correct-word'>{letter}</span>
-    }
-
-    if (incorrect) {
-        return <span className='incorrect-word'>{letter}</span>
-    }
-
-    if (active) {
-        return <span className={active ? 'active' : 'incorrect-word'}>{letter}</span>
-    }
-
-    return <span>{letter}</span>
-}
 
 function App() {
     const [text, setText] = useState([]);
@@ -35,7 +18,7 @@ function App() {
 
     const inputCount = rightCount + wrongCount;
     const timeSpent = (endDate ?? Date.now()) - startDate;
-    const speed = startDate ?  rightCount / (timeSpent / 60000) : null;
+    const speed = startDate ? rightCount / (timeSpent / 60000) : null;
     const accuracy = Math.floor((rightCount / inputCount) * 100);
 
     useEffect(() => {
@@ -50,7 +33,6 @@ function App() {
 
     useEffect(() => {
         const onKeypress = (e) => {
-
             if (e.key === text[activeIndex]) {
                 setLastLetterIncorrect(false);
                 setActiveIndex((index) => index + 1);
@@ -60,21 +42,20 @@ function App() {
                     setGameOver(true);
                     setEndDate(new Date());
                 }
+
             } else {
                 setLastLetterIncorrect(true);
                 setWrongCount((count) => count + 1);
             }
         };
-
         document.addEventListener("keypress", onKeypress);
         return () => document.removeEventListener("keypress", onKeypress);
     }, [text, activeIndex]);
 
-
     return (
         <div className="App">
             <div className="main">
-                <h1 className="main__title">Тренажёр слепой печати</h1>
+                <h1 className="main__title">Touch typing trainer</h1>
                 {popup &&
                     <StartPopup
                         popup={popup}
@@ -88,34 +69,13 @@ function App() {
                         accuracy={accuracy}
                     />
                 }
-                <div className="main__window">
-                    <span className="main__text">
-                        {text.map((letter, index) => {
-                            return <Letter letter={letter}
-                                           key={index}
-                                           active={index === activeIndex}
-                                           correct={index < activeIndex}
-                                           incorrect={index === activeIndex && lastLetterIncorrect}
-                            />
-                        })}
-                        <span className="main__textarea">
-                        </span>
-                    </span>
-                    <div className="main__content">
-                        <div className="speed"> speed:
-                            <div className="main__result">
-                                <span> {Math.floor(speed)} </span>
-                                зн/мин
-                            </div>
-                        </div>
-                        <div className="accuracy"> accuracy:
-                            <div className="main__result">
-                                <span> {accuracy} </span>
-                                %
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <MainWindow
+                    text={text}
+                    speed={speed}
+                    activeIndex={activeIndex}
+                    lastLetterIncorrect={lastLetterIncorrect}
+                    accuracy={accuracy}
+                />
             </div>
         </div>
     )
