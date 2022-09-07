@@ -3,7 +3,7 @@ import {StartPopup} from "./componets/StartPopup/StartPopup";
 import {GameOver} from "./componets/GameOver/GameOver";
 import {MainWindow} from "./componets/MainWindow/MainWindow";
 
-const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=0.1&start-with-lorem=1';
+const URL = 'https://baconipsum.com/api/?type=all-meat&sentences=5&start-with-lorem=1';
 
 function App() {
     const [text, setText] = useState([]);
