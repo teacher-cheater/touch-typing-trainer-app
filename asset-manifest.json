@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/touch-typing-trainer-app/static/css/main.303e7326.css",
-    "main.js": "/touch-typing-trainer-app/static/js/main.5219707c.js",
+    "main.js": "/touch-typing-trainer-app/static/js/main.b1d7d9f7.js",
     "index.html": "/touch-typing-trainer-app/index.html",
     "main.303e7326.css.map": "/touch-typing-trainer-app/static/css/main.303e7326.css.map",
-    "main.5219707c.js.map": "/touch-typing-trainer-app/static/js/main.5219707c.js.map"
+    "main.b1d7d9f7.js.map": "/touch-typing-trainer-app/static/js/main.b1d7d9f7.js.map"
   },
   "entrypoints": [
     "static/css/main.303e7326.css",
-    "static/js/main.5219707c.js"
+    "static/js/main.b1d7d9f7.js"
   ]
 }
